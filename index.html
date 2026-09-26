@@ -1,0 +1,1083 @@
+```html
+<!--
+===========================================================
+ KOSTENLOSE PDF-BIBLIOTHEK / FLIPBOOK-GALERIE FÜR BLOGGER
+ Version: 1.0
+ Keine Datenbank
+ Keine externen JavaScript-Bibliotheken
+ Blogger-kompatibel
+===========================================================
+-->
+
+<style>
+/* ========================================================
+   GRUNDEINSTELLUNGEN
+======================================================== */
+
+.pdf-library {
+  --bg: #f3efe7;
+  --card: #ffffff;
+  --text: #29251f;
+  --muted: #756e63;
+  --accent: #8b4f2d;
+  --accent-dark: #63361f;
+  --accent-light: #ead8ca;
+  --border: #ded5ca;
+  --shadow: 0 8px 25px rgba(0,0,0,.10);
+
+  max-width: 1250px;
+  margin: 30px auto;
+  padding: 20px;
+  font-family: Arial, Helvetica, sans-serif;
+  color: var(--text);
+  background: var(--bg);
+  box-sizing: border-box;
+}
+
+.pdf-library * {
+  box-sizing: border-box;
+}
+
+/* ========================================================
+   HEADER
+======================================================== */
+
+.pdf-header {
+  text-align: center;
+  padding: 45px 20px 35px;
+  background:
+    linear-gradient(rgba(45,32,22,.82), rgba(45,32,22,.82)),
+    url("https://images.unsplash.com/photo-1524368535928-5b5e00ddc76b?auto=format&fit=crop&w=1600&q=80")
+    center/cover;
+  color: white;
+  border-radius: 14px;
+  margin-bottom: 25px;
+}
+
+.pdf-header h1 {
+  margin: 0 0 10px;
+  font-family: Georgia, serif;
+  font-size: clamp(30px, 5vw, 52px);
+  letter-spacing: .5px;
+}
+
+.pdf-header p {
+  max-width: 700px;
+  margin: auto;
+  line-height: 1.7;
+  font-size: 16px;
+  opacity: .94;
+}
+
+/* ========================================================
+   STATISTIK
+======================================================== */
+
+.pdf-stats {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+  margin: 22px 0;
+}
+
+.pdf-stat {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 25px;
+  text-align: center;
+  box-shadow: 0 3px 12px rgba(0,0,0,.05);
+}
+
+.pdf-stat strong {
+  display: block;
+  font-size: 25px;
+  color: var(--accent);
+}
+
+.pdf-stat span {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+/* ========================================================
+   SUCHFELD
+======================================================== */
+
+.pdf-search {
+  display: flex;
+  gap: 10px;
+  margin: 25px 0 15px;
+}
+
+.pdf-search input {
+  flex: 1;
+  min-width: 0;
+  padding: 15px 18px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-size: 16px;
+  outline: none;
+  background: white;
+}
+
+.pdf-search input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(139,79,45,.12);
+}
+
+.pdf-search button {
+  border: 0;
+  border-radius: 10px;
+  padding: 0 22px;
+  background: var(--accent);
+  color: white;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.pdf-search button:hover {
+  background: var(--accent-dark);
+}
+
+/* ========================================================
+   KATEGORIEN
+======================================================== */
+
+.pdf-categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 25px;
+}
+
+.pdf-category {
+  border: 1px solid var(--border);
+  background: white;
+  color: var(--text);
+  border-radius: 30px;
+  padding: 9px 17px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: .2s;
+}
+
+.pdf-category:hover,
+.pdf-category.active {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+
+/* ========================================================
+   GRID
+======================================================== */
+
+.pdf-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+/* ========================================================
+   PDF-KARTE
+======================================================== */
+
+.pdf-card {
+  background: var(--card);
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  transition: transform .25s, box-shadow .25s;
+  display: flex;
+  flex-direction: column;
+}
+
+.pdf-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(0,0,0,.15);
+}
+
+.pdf-cover {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background: #ddd;
+}
+
+.pdf-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform .35s;
+}
+
+.pdf-card:hover .pdf-cover img {
+  transform: scale(1.04);
+}
+
+.pdf-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: var(--accent);
+  color: white;
+  font-size: 11px;
+  font-weight: bold;
+  padding: 6px 9px;
+  border-radius: 5px;
+  text-transform: uppercase;
+}
+
+.pdf-info {
+  padding: 18px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.pdf-category-label {
+  color: var(--accent);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: bold;
+  margin-bottom: 7px;
+}
+
+.pdf-title {
+  margin: 0 0 8px;
+  font-family: Georgia, serif;
+  font-size: 20px;
+  line-height: 1.25;
+}
+
+.pdf-description {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.55;
+  margin: 0 0 15px;
+}
+
+.pdf-meta {
+  color: #8a8379;
+  font-size: 12px;
+  margin-top: auto;
+  margin-bottom: 14px;
+}
+
+/* ========================================================
+   BUTTONS
+======================================================== */
+
+.pdf-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.pdf-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 9px 8px;
+  border-radius: 8px;
+  text-decoration: none !important;
+  font-size: 13px;
+  font-weight: bold;
+  transition: .2s;
+}
+
+.pdf-btn-read {
+  background: var(--accent);
+  color: white !important;
+}
+
+.pdf-btn-read:hover {
+  background: var(--accent-dark);
+}
+
+.pdf-btn-download {
+  background: var(--accent-light);
+  color: var(--accent-dark) !important;
+}
+
+.pdf-btn-download:hover {
+  background: #dfc5b4;
+}
+
+/* ========================================================
+   KEINE ERGEBNISSE
+======================================================== */
+
+.pdf-no-results {
+  display: none;
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--muted);
+}
+
+.pdf-no-results strong {
+  display: block;
+  font-family: Georgia, serif;
+  font-size: 24px;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+/* ========================================================
+   FOOTER
+======================================================== */
+
+.pdf-footer {
+  margin-top: 40px;
+  padding: 25px;
+  border-top: 1px solid var(--border);
+  text-align: center;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.pdf-footer a {
+  color: var(--accent);
+}
+
+/* ========================================================
+   RESPONSIVE
+======================================================== */
+
+@media (max-width: 1050px) {
+  .pdf-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 760px) {
+  .pdf-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+  }
+
+  .pdf-info {
+    padding: 14px;
+  }
+
+  .pdf-title {
+    font-size: 17px;
+  }
+
+  .pdf-description {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 520px) {
+  .pdf-library {
+    padding: 10px;
+    margin: 10px auto;
+  }
+
+  .pdf-header {
+    padding: 35px 15px;
+  }
+
+  .pdf-header h1 {
+    font-size: 30px;
+  }
+
+  .pdf-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pdf-search {
+    flex-direction: column;
+  }
+
+  .pdf-search button {
+    min-height: 45px;
+  }
+
+  .pdf-buttons {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+
+
+<div class="pdf-library">
+
+  <!-- =====================================================
+       HEADER
+  ====================================================== -->
+
+  <div class="pdf-header">
+    <h1>📚 Meine PDF-Bibliothek</h1>
+
+    <p>
+      Entdecke meine kostenlosen E-Books, Gitarren-Lernmaterialien,
+      PDF-Ratgeber und musikalischen Lernhilfen.
+      Lies die Bücher direkt online oder lade die PDF-Datei herunter.
+    </p>
+  </div>
+
+
+  <!-- =====================================================
+       STATISTIK
+  ====================================================== -->
+
+  <div class="pdf-stats">
+
+    <div class="pdf-stat">
+      <strong id="pdfCount">0</strong>
+      <span>PDFs</span>
+    </div>
+
+    <div class="pdf-stat">
+      <strong id="categoryCount">0</strong>
+      <span>Kategorien</span>
+    </div>
+
+    <div class="pdf-stat">
+      <strong>100%</strong>
+      <span>kostenlos</span>
+    </div>
+
+  </div>
+
+
+  <!-- =====================================================
+       SUCHE
+  ====================================================== -->
+
+  <div class="pdf-search">
+
+    <input
+      type="search"
+      id="pdfSearch"
+      placeholder="🔎 PDF suchen …"
+      aria-label="PDF suchen">
+
+    <button type="button" id="clearSearch">
+      Zurücksetzen
+    </button>
+
+  </div>
+
+
+  <!-- =====================================================
+       KATEGORIEN
+  ====================================================== -->
+
+  <div class="pdf-categories" id="pdfCategories">
+
+    <button
+      class="pdf-category active"
+      data-category="Alle">
+      Alle
+    </button>
+
+    <button
+      class="pdf-category"
+      data-category="Gitarre">
+      🎸 Gitarre
+    </button>
+
+    <button
+      class="pdf-category"
+      data-category="Blues">
+      🎵 Blues
+    </button>
+
+    <button
+      class="pdf-category"
+      data-category="Musik">
+      🎼 Musik
+    </button>
+
+    <button
+      class="pdf-category"
+      data-category="Ratgeber">
+      📖 Ratgeber
+    </button>
+
+  </div>
+
+
+  <!-- =====================================================
+       PDF-GRID
+  ====================================================== -->
+
+  <div class="pdf-grid" id="pdfGrid">
+
+
+    <!-- ===================================================
+         PDF 1
+    ==================================================== -->
+
+    <article
+      class="pdf-card"
+      data-category="Gitarre"
+      data-title="Gitarre lernen Die 10 wichtigsten Übungen für Anfänger">
+
+      <div class="pdf-cover">
+
+        <img
+          src="https://via.placeholder.com/600x800/8b4f2d/ffffff?text=Gitarre+lernen"
+          alt="Gitarre lernen – Die 10 wichtigsten Übungen für Anfänger"
+          loading="lazy">
+
+        <span class="pdf-badge">
+          NEU
+        </span>
+
+      </div>
+
+      <div class="pdf-info">
+
+        <div class="pdf-category-label">
+          Gitarre
+        </div>
+
+        <h2 class="pdf-title">
+          Gitarre lernen – Die 10 wichtigsten Übungen für Anfänger
+        </h2>
+
+        <p class="pdf-description">
+          Praktischer Einstieg für Anfänger mit wichtigen Übungen
+          für Akkorde, Rhythmus und sauberes Greifen.
+        </p>
+
+        <div class="pdf-meta">
+          📄 PDF · Anfänger
+        </div>
+
+        <div class="pdf-buttons">
+
+          <a
+            class="pdf-btn pdf-btn-read"
+            href="DEIN-HEYZONE-FLIPBOOK-LINK-1"
+            target="_blank"
+            rel="noopener">
+            📖 Lesen
+          </a>
+
+          <a
+            class="pdf-btn pdf-btn-download"
+            href="DEIN-PDF-DOWNLOAD-LINK-1"
+            target="_blank"
+            rel="noopener">
+            ⬇️ PDF
+          </a>
+
+        </div>
+
+      </div>
+
+    </article>
+
+
+    <!-- ===================================================
+         PDF 2
+    ==================================================== -->
+
+    <article
+      class="pdf-card"
+      data-category="Gitarre"
+      data-title="5 wichtige Schlagrhythmen für Akustikgitarre">
+
+      <div class="pdf-cover">
+
+        <img
+          src="https://via.placeholder.com/600x800/63361f/ffffff?text=Schlagrhythmen"
+          alt="5 wichtige Schlagrhythmen für Akustikgitarre"
+          loading="lazy">
+
+      </div>
+
+      <div class="pdf-info">
+
+        <div class="pdf-category-label">
+          Gitarre
+        </div>
+
+        <h2 class="pdf-title">
+          5 wichtige Schlagrhythmen für Akustikgitarre
+        </h2>
+
+        <p class="pdf-description">
+          Die wichtigsten Grundrhythmen mit Downstrokes und Upstrokes.
+        </p>
+
+        <div class="pdf-meta">
+          📄 PDF · Gitarrenunterricht
+        </div>
+
+        <div class="pdf-buttons">
+
+          <a
+            class="pdf-btn pdf-btn-read"
+            href="DEIN-HEYZONE-FLIPBOOK-LINK-2"
+            target="_blank"
+            rel="noopener">
+            📖 Lesen
+          </a>
+
+          <a
+            class="pdf-btn pdf-btn-download"
+            href="DEIN-PDF-DOWNLOAD-LINK-2"
+            target="_blank"
+            rel="noopener">
+            ⬇️ PDF
+          </a>
+
+        </div>
+
+      </div>
+
+    </article>
+
+
+    <!-- ===================================================
+         PDF 3
+    ==================================================== -->
+
+    <article
+      class="pdf-card"
+      data-category="Blues"
+      data-title="Die Straße des Blues Highway 61">
+
+      <div class="pdf-cover">
+
+        <img
+          src="https://via.placeholder.com/600x800/453a32/ffffff?text=Highway+61"
+          alt="Die Straße des Blues – Highway 61"
+          loading="lazy">
+
+      </div>
+
+      <div class="pdf-info">
+
+        <div class="pdf-category-label">
+          Blues
+        </div>
+
+        <h2 class="pdf-title">
+          Die Straße des Blues – Highway 61
+        </h2>
+
+        <p class="pdf-description">
+          Historische und kulturelle Bedeutung des Highway 61
+          für Blues und amerikanische Musikgeschichte.
+        </p>
+
+        <div class="pdf-meta">
+          📄 PDF · Bluesgeschichte
+        </div>
+
+        <div class="pdf-buttons">
+
+          <a
+            class="pdf-btn pdf-btn-read"
+            href="DEIN-HEYZONE-FLIPBOOK-LINK-3"
+            target="_blank"
+            rel="noopener">
+            📖 Lesen
+          </a>
+
+          <a
+            class="pdf-btn pdf-btn-download"
+            href="DEIN-PDF-DOWNLOAD-LINK-3"
+            target="_blank"
+            rel="noopener">
+            ⬇️ PDF
+          </a>
+
+        </div>
+
+      </div>
+
+    </article>
+
+
+    <!-- ===================================================
+         PDF 4
+    ==================================================== -->
+
+    <article
+      class="pdf-card"
+      data-category="Musik"
+      data-title="Blues Gitarre Grundlagen">
+
+      <div class="pdf-cover">
+
+        <img
+          src="https://via.placeholder.com/600x800/71543f/ffffff?text=Blues+Gitarre"
+          alt="Blues Gitarre Grundlagen"
+          loading="lazy">
+
+      </div>
+
+      <div class="pdf-info">
+
+        <div class="pdf-category-label">
+          Musik
+        </div>
+
+        <h2 class="pdf-title">
+          Blues-Gitarre – Grundlagen
+        </h2>
+
+        <p class="pdf-description">
+          Blues-Schema, Shuffle, Pentatonik und wichtige Grundlagen
+          für den Einstieg in den Blues.
+        </p>
+
+        <div class="pdf-meta">
+          📄 PDF · Blues · Gitarre
+        </div>
+
+        <div class="pdf-buttons">
+
+          <a
+            class="pdf-btn pdf-btn-read"
+            href="DEIN-HEYZONE-FLIPBOOK-LINK-4"
+            target="_blank"
+            rel="noopener">
+            📖 Lesen
+          </a>
+
+          <a
+            class="pdf-btn pdf-btn-download"
+            href="DEIN-PDF-DOWNLOAD-LINK-4"
+            target="_blank"
+            rel="noopener">
+            ⬇️ PDF
+          </a>
+
+        </div>
+
+      </div>
+
+    </article>
+
+
+    <!-- ===================================================
+         PDF 5
+    ==================================================== -->
+
+    <article
+      class="pdf-card"
+      data-category="Ratgeber"
+      data-title="Gitarre als Anfänger richtig lernen">
+
+      <div class="pdf-cover">
+
+        <img
+          src="https://via.placeholder.com/600x800/8b6a52/ffffff?text=Gitarren+Ratgeber"
+          alt="Gitarre als Anfänger richtig lernen"
+          loading="lazy">
+
+      </div>
+
+      <div class="pdf-info">
+
+        <div class="pdf-category-label">
+          Ratgeber
+        </div>
+
+        <h2 class="pdf-title">
+          Gitarre als Anfänger richtig lernen
+        </h2>
+
+        <p class="pdf-description">
+          Die wichtigsten ersten Schritte vom Stimmen über Akkorde
+          bis zum ersten einfachen Song.
+        </p>
+
+        <div class="pdf-meta">
+          📄 PDF · Anfänger
+        </div>
+
+        <div class="pdf-buttons">
+
+          <a
+            class="pdf-btn pdf-btn-read"
+            href="DEIN-HEYZONE-FLIPBOOK-LINK-5"
+            target="_blank"
+            rel="noopener">
+            📖 Lesen
+          </a>
+
+          <a
+            class="pdf-btn pdf-btn-download"
+            href="DEIN-PDF-DOWNLOAD-LINK-5"
+            target="_blank"
+            rel="noopener">
+            ⬇️ PDF
+          </a>
+
+        </div>
+
+      </div>
+
+    </article>
+
+
+  </div>
+
+
+  <!-- =====================================================
+       KEINE ERGEBNISSE
+  ====================================================== -->
+
+  <div
+    class="pdf-no-results"
+    id="pdfNoResults">
+
+    <strong>Keine PDFs gefunden</strong>
+
+    <span>
+      Bitte ändere deinen Suchbegriff oder wähle eine andere Kategorie.
+    </span>
+
+  </div>
+
+
+  <!-- =====================================================
+       FOOTER
+  ====================================================== -->
+
+  <div class="pdf-footer">
+
+    <div>
+      © <span id="pdfYear"></span>
+      Wolfram Fiedler
+    </div>
+
+    <div style="margin-top:7px;">
+      Kostenlose PDF-Bibliothek · E-Books · Gitarrenmaterialien · Musik
+    </div>
+
+  </div>
+
+</div>
+
+
+<script>
+(function () {
+
+  "use strict";
+
+  /* =====================================================
+     ELEMENTE
+  ====================================================== */
+
+  const searchInput =
+    document.getElementById("pdfSearch");
+
+  const clearButton =
+    document.getElementById("clearSearch");
+
+  const cards =
+    Array.from(document.querySelectorAll(".pdf-card"));
+
+  const categoryButtons =
+    Array.from(document.querySelectorAll(".pdf-category"));
+
+  const noResults =
+    document.getElementById("pdfNoResults");
+
+  const pdfCount =
+    document.getElementById("pdfCount");
+
+  const categoryCount =
+    document.getElementById("categoryCount");
+
+  const year =
+    document.getElementById("pdfYear");
+
+
+  /* =====================================================
+     JAHR
+  ====================================================== */
+
+  year.textContent =
+    new Date().getFullYear();
+
+
+  /* =====================================================
+     STATISTIK
+  ====================================================== */
+
+  pdfCount.textContent =
+    cards.length;
+
+  const categories =
+    new Set(
+      cards.map(function(card) {
+        return card.dataset.category;
+      })
+    );
+
+  categoryCount.textContent =
+    categories.size;
+
+
+  /* =====================================================
+     AKTUELLER FILTER
+  ====================================================== */
+
+  let activeCategory = "Alle";
+
+
+  /* =====================================================
+     FILTERFUNKTION
+  ====================================================== */
+
+  function filterPDFs() {
+
+    const searchTerm =
+      searchInput.value
+        .toLowerCase()
+        .trim();
+
+    let visible = 0;
+
+
+    cards.forEach(function(card) {
+
+      const title =
+        (card.dataset.title || "")
+        .toLowerCase();
+
+      const category =
+        (card.dataset.category || "")
+        .toLowerCase();
+
+      const categoryOK =
+        activeCategory === "Alle" ||
+        category === activeCategory.toLowerCase();
+
+      const searchOK =
+        !searchTerm ||
+        title.includes(searchTerm) ||
+        category.includes(searchTerm);
+
+      if (categoryOK && searchOK) {
+
+        card.style.display = "";
+
+        visible++;
+
+      } else {
+
+        card.style.display = "none";
+
+      }
+
+    });
+
+
+    noResults.style.display =
+      visible === 0 ? "block" : "none";
+
+  }
+
+
+  /* =====================================================
+     SUCHE
+  ====================================================== */
+
+  searchInput.addEventListener(
+    "input",
+    filterPDFs
+  );
+
+
+  /* =====================================================
+     ZURÜCKSETZEN
+  ====================================================== */
+
+  clearButton.addEventListener(
+    "click",
+    function() {
+
+      searchInput.value =
+        "";
+
+      activeCategory =
+        "Alle";
+
+      categoryButtons.forEach(
+        function(button) {
+
+          button.classList.remove(
+            "active"
+          );
+
+          if (
+            button.dataset.category ===
+            "Alle"
+          ) {
+
+            button.classList.add(
+              "active"
+            );
+
+          }
+
+        }
+      );
+
+      filterPDFs();
+
+      searchInput.focus();
+
+    }
+  );
+
+
+  /* =====================================================
+     KATEGORIEN
+  ====================================================== */
+
+  categoryButtons.forEach(
+    function(button) {
+
+      button.addEventListener(
+        "click",
+        function() {
+
+          categoryButtons.forEach(
+            function(item) {
+
+              item.classList.remove(
+                "active"
+              );
+
+            }
+          );
+
+          button.classList.add(
+            "active"
+          );
+
+          activeCategory =
+            button.dataset.category;
+
+          filterPDFs();
+
+        }
+      );
+
+    }
+  );
+
+
+})();
+</script>
+```
